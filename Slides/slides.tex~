@@ -41,7 +41,7 @@
 
 
 \begin{frame}
-\frametitle{Plot of error over time}
+\frametitle{Plot of error over iterations}
 
 \begin{figure}[H]
 \centering
