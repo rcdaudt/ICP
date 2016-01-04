@@ -3,7 +3,7 @@ ref = load('bun000_dec1.mat');
 ref = ref.bun000_dec1;
 ref(:, 4) = 1;
 
-src = load('../ICP/Data/bun045.mat');
+src = load('bun045.mat');
 src = src.bun045;
 src(:, 4) = 1;
 
