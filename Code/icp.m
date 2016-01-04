@@ -1,11 +1,24 @@
 %[ref, src] = gen();
-ref = load('../Data/bun000_dec1.mat');
+ref = load('bun000_dec1.mat');
 ref = ref.bun000_dec1;
 ref(:, 4) = 1;
 
-src = load('../Data/bun045.mat');
+src = load('../ICP/Data/bun045.mat');
 src = src.bun045;
 src(:, 4) = 1;
+
+%%75 % data lost
+% for i = 1:30000
+%    src(uint32(length(src)+rand())-1,:)=[]; 
+% end
+
+%%just the center
+% src(1:10000,:)=[];
+% src(length(src)-10000:length(src),:)=[];
+
+%%small overlap
+% ref(1:15000,:) = [];
+% src(length(src)-15000:length(src),:)=[];
 
 scatter3(ref(:,1), ref(:,2), ref(:,3), 'b'), hold on;
 pl = scatter3(src(:,1), src(:,2), src(:,3), '.r');
@@ -28,9 +41,7 @@ while 1
     weight = (dist < dmax);
     m(weight == 0, :) = [];
     s = src(weight ~= 0, :);
-    [R, T] = eq_lmaPoint(m(:,1:3)', s(:,1:3)');
-    TT = [R, T];
-    TT = [TT; [0, 0, 0, 1]];
+    TT = levMarq(m', s');
     src = (TT*src')';
     meanError = (2*meanError + error)/3;
     if abs(meanError - error) < eps
